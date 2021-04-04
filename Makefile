@@ -2,7 +2,7 @@
 
 IMAGE_NAME = docker.io/fphammerle/borgbackup-sshd
 PROJECT_VERSION = $(shell git describe --match=v* --abbrev=0 --dirty | sed -e 's/^v//')
-BORGBACKUP_SERVER_PACKAGE_VERSION := $(shell grep -Po 'BORGBACKUP_SERVER_PACKAGE_VERSION=\K.+' Dockerfile | tr -d _-)
+BORGBACKUP_PACKAGE_VERSION := $(shell grep -Po 'BORGBACKUP_PACKAGE_VERSION=\K.+' Dockerfile | tr -d _-)
 OPENSSH_SERVER_PACKAGE_VERSION := $(shell grep -Po 'OPENSSH_SERVER_PACKAGE_VERSION=\K.+' Dockerfile | tr -d _-)
 ARCH = $(shell arch)
 # architecture[arm_variant]
@@ -12,7 +12,7 @@ IMAGE_TAG_ARCH_armv6l = armv6
 IMAGE_TAG_ARCH_armv7l = armv7
 IMAGE_TAG_ARCH_x86_64 = amd64
 IMAGE_TAG_ARCH = ${IMAGE_TAG_ARCH_${ARCH}}
-IMAGE_TAG = ${PROJECT_VERSION}-borgbackup${BORGBACKUP_SERVER_PACKAGE_VERSION}-openssh${OPENSSH_SERVER_PACKAGE_VERSION}-${IMAGE_TAG_ARCH}
+IMAGE_TAG = ${PROJECT_VERSION}-borgbackup${BORGBACKUP_PACKAGE_VERSION}-openssh${OPENSSH_SERVER_PACKAGE_VERSION}-${IMAGE_TAG_ARCH}
 BUILD_PARAMS = --tag="${IMAGE_NAME}:${IMAGE_TAG}" \
 	--build-arg=REVISION="$(shell git rev-parse HEAD)"
 
