@@ -32,5 +32,5 @@ CMD ["/usr/sbin/sshd", "-D", "-e"]
 # https://github.com/opencontainers/image-spec/blob/v1.0.1/annotations.md
 ARG REVISION=
 LABEL org.opencontainers.image.title="single-user openssh server restricted to borgbackup backend" \
-    org.opencontainers.image.source="https://github.com/fphammerle/borgbackup-sshd" \
+    org.opencontainers.image.source="https://github.com/fphammerle/docker-borgbackup-sshd" \
     org.opencontainers.image.revision="$REVISION"
