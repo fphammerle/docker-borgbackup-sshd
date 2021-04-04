@@ -2,12 +2,14 @@ FROM docker.io/alpine:3.13.4
 
 ARG BORGBACKUP_PACKAGE_VERSION=1.1.15-r0
 ARG OPENSSH_SERVER_PACKAGE_VERSION=8.4_p1-r3
+ARG TINI_PACKAGE_VERSION=0.19.0-r0
 ARG USER=borg
 ENV SSHD_HOST_KEYS_DIR=/etc/ssh/host_keys
 ENV REPO_PATH=/repository
 RUN apk add --no-cache \
         borgbackup="$BORGBACKUP_PACKAGE_VERSION" \
         openssh-server="$OPENSSH_SERVER_PACKAGE_VERSION" \
+        tini=$TINI_PACKAGE_VERSION \
     && adduser -S -s /bin/ash "$USER" \
     && mkdir "$SSHD_HOST_KEYS_DIR" \
     && chown -c "$USER" "$SSHD_HOST_KEYS_DIR" \
@@ -22,7 +24,7 @@ EXPOSE 2200/tcp
 ENV SSH_CLIENT_PUBLIC_KEYS=
 ENV SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY=
 COPY entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
 
 USER $USER
 CMD ["/usr/sbin/sshd", "-D", "-e"]
