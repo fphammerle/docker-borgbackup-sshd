@@ -1,0 +1,46 @@
+version: '2.3'
+
+volumes:
+  ssh_host_keys:
+  repository:
+
+services:
+  sshd:
+    build: .
+    image: docker.io/fphammerle/borgbackup-sshd
+    container_name: borgbackup_sshd
+    environment:
+      SSH_CLIENT_PUBLIC_KEYS: |
+        ssh-rsa ...
+        ssh-rsa ...
+    read_only: true
+    volumes:
+    - type: volume
+      source: ssh_host_keys
+      target: /etc/ssh/host_keys
+      read_only: false
+    - type: volume
+      source: repository
+      target: /repository
+      read_only: false
+    - type: tmpfs
+      target: /home/borg/.ssh # authorized_keys
+      tmpfs:
+        # nosuid,nodev,noexec added by default
+        mode: '1777'
+        size: 16k
+    - type: tmpfs
+      # > FileNotFoundError: [Errno 2] No usable temporary directory found [...]
+      target: /tmp
+      tmpfs:
+        mode: '1777'
+        size: 1M
+    ports:
+    - '127.0.0.1:2200:2200'
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges]
+    # docker-compose >=2.2,<3
+    cpus: 0.8
+    mem_limit: 64M
+
+# https://docs.docker.com/compose/compose-file/compose-file-v2/
