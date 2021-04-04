@@ -33,4 +33,4 @@ PermitUserEnvironment no
 PrintMotd no
 PermitTTY no
 
-ForceCommand /usr/bin/borg serve --restrict-to-repository /repository
+# ForceCommand via command= in ~/.ssh/authorized_keys
