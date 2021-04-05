@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- repo url in `org.opencontainers.image.source` label
+- fixed repo url in `org.opencontainers.image.source` label
+- `docker-compose`: increased memory limit
+  (`64MiB` was insufficient for two parallel operations, e.g. `borg create` & `borg list`)
 
 ## [0.1.0] - 2021-04-04
 ### Added
