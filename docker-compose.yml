@@ -3,6 +3,7 @@ version: '2.3'
 volumes:
   ssh_host_keys:
   repository:
+  #additional_repositories:
 
 services:
   sshd:
@@ -16,6 +17,17 @@ services:
       SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY: |
         ssh-rsa ...
         ssh-rsa ...
+      #REPO_PATH_foo: /additional-repositories/foo
+      #SSH_CLIENT_PUBLIC_KEYS_foo: |
+      #  ssh-rsa ...
+      #  ssh-rsa ...
+      #SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_foo: |
+      #  ssh-rsa ...
+      #  ssh-rsa ...
+      #REPO_PATH_bar: /additional-repositories/bar
+      #SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_bar: |
+      #  ssh-rsa ...
+      #  ssh-rsa ...
     read_only: true
     volumes:
     - type: volume
@@ -26,6 +38,10 @@ services:
       source: repository
       target: /repository
       read_only: false
+    #- type: volume
+    #  source: additional_repositories
+    #  target: /additional-repositories
+    #  read_only: false
     - type: tmpfs
       target: /home/borg/.ssh # authorized_keys
       tmpfs:

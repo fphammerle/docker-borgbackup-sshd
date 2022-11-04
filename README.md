@@ -30,6 +30,24 @@ Annotation of signed git tags `docker/*` contains docker image digests: https://
 Detached signatures of images are available at https://github.com/fphammerle/container-image-sigstore
 (exluding automatically built `latest` tag).
 
+### Add Additional Repositories
+
+```sh
+$ sudo docker run --name borgbackup_sshd \
+    -v repo_foo:/some/where/repo-foo \
+    -e REPO_PATH_foo=/some/where/repo-foo \
+    -e SSH_CLIENT_PUBLIC_KEYS_foo="$(cat keys-foo.pub)" \
+    -e SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_foo="$(cat keys-foo-append-only.pub)" \
+    ...
+    -v repo_bar:/some/where/else/bar \
+    -e REPO_PATH_bar=/some/where/else/bar \
+    -e SSH_CLIENT_PUBLIC_KEYS_bar="$(cat keys-bar.pub)" \
+    -e SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_bar="$(cat keys-bar-append-only.pub)" \
+    ...
+```
+
+Currently, keys may only be authorized for a single repository.
+
 ### Docker Compose 🐙
 
 1. `git clone https://github.com/fphammerle/docker-borgbackup-sshd`

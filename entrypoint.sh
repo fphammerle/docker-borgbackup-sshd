@@ -26,6 +26,19 @@ printenv SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY | while IFS=$'\n' read -r key; do
 done
 unset SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY
 unset REPO_PATH
+while IFS=$'\n' read line; do
+    repo_name="$(echo -E "$line" | cut -d = -f 1 | cut -d _ -f 3-)"
+    repo_path="$(printenv "REPO_PATH_${repo_name}")"
+    unset "REPO_PATH_${repo_name}"
+    printenv "SSH_CLIENT_PUBLIC_KEYS_${repo_name}" | while IFS=$'\n' read -r key; do
+        authorize_key "$repo_path" "$key" ""
+    done
+    unset "SSH_CLIENT_PUBLIC_KEYS_${repo_name}"
+    printenv "SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_${repo_name}" | while IFS=$'\n' read -r key; do
+        authorize_key "$repo_path" "$key" " --append-only"
+    done
+    unset "SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_${repo_name}"
+done < <(printenv | grep '^REPO_PATH_')
 
 set -x
 
