@@ -28,6 +28,10 @@ unset SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY
 unset REPO_PATH
 while IFS=$'\n' read line; do
     repo_name="$(echo -E "$line" | cut -d = -f 1 | cut -d _ -f 3-)"
+    if [ "$repo_name" = "ALL" ]; then
+        echo 'Invalid repository name "ALL". Remove environment variable REPO_PATH_ALL.'
+        exit 1
+    fi
     repo_path="$(printenv "REPO_PATH_${repo_name}")"
     unset "REPO_PATH_${repo_name}"
     printenv "SSH_CLIENT_PUBLIC_KEYS_${repo_name}" | while IFS=$'\n' read -r key; do
