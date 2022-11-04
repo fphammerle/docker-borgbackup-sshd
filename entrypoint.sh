@@ -13,7 +13,7 @@ unset SSHD_HOST_KEYS_DIR
 
 authorize_key() {
     if echo -E "$2" | grep -q '^[a-z]'; then
-        echo "command=\"/usr/bin/borg serve --restrict-to-repository '$1'$3\" $2" >> ~/.ssh/authorized_keys
+        echo "command=\"/usr/bin/borg serve --restrict-to-repository '$1'$3\",restrict $2" >> ~/.ssh/authorized_keys
     fi
 }
 printenv SSH_CLIENT_PUBLIC_KEYS | while IFS=$'\n' read -r key; do
