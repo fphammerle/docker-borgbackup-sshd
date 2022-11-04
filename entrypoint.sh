@@ -12,17 +12,17 @@ fi
 unset SSHD_HOST_KEYS_DIR
 
 authorize_key() {
-    if echo -E "$1" | grep -q '^[a-z]'; then
-        echo "command=\"/usr/bin/borg serve --restrict-to-repository '$REPO_PATH'$2\" $1" >> ~/.ssh/authorized_keys
+    if echo -E "$2" | grep -q '^[a-z]'; then
+        echo "command=\"/usr/bin/borg serve --restrict-to-repository '$1'$3\" $2" >> ~/.ssh/authorized_keys
     fi
 }
 printenv SSH_CLIENT_PUBLIC_KEYS | while IFS=$'\n' read -r key; do
-    authorize_key "$key" ""
+    authorize_key "$REPO_PATH" "$key" ""
 done
 unset SSH_CLIENT_PUBLIC_KEYS
 # https://borgbackup.readthedocs.io/en/stable/usage/notes.html#append-only-mode
 printenv SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY | while IFS=$'\n' read -r key; do
-    authorize_key "$key" " --append-only"
+    authorize_key "$REPO_PATH" "$key" " --append-only"
 done
 unset SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY
 unset REPO_PATH
