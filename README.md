@@ -46,7 +46,18 @@ $ sudo docker run --name borgbackup_sshd \
     ...
 ```
 
-Currently, keys may only be authorized for a single repository.
+Currently, individual keys may be authorized either for a single repository
+or for *all repositories* via `SSH_CLIENT_PUBLIC_KEYS_ALL`:
+```sh
+$ sudo docker run --name borgbackup_sshd \
+    -v repo_foo:/some/where/repo-foo \
+    -e REPO_PATH_foo=/some/where/repo-foo \
+    -v repo_bar:/some/where/else/bar \
+    -e REPO_PATH_bar=/some/where/else/bar \
+    ...
+    -e SSH_CLIENT_PUBLIC_KEYS_ALL="$(cat ~/.ssh/id_*.pub)" \
+    ...
+```
 
 ### Docker Compose 🐙
 

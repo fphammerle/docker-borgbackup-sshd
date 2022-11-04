@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `SSH_CLIENT_PUBLIC_KEYS_[NAME]`, and `SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_[NAME]`.
   keeping functionality of `BORG_REPO`, `SSH_CLIENT_PUBLIC_KEYS`,
   and `SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY` for downward compatibility.
+  keys in `SSH_CLIENT_PUBLIC_KEYS_ALL` are authorized to access all repositories.
 - add sshd's `restrict` option to all key authorizations
   (redundant as port forwarding etc is already disabled in `sshd_config`)
 
