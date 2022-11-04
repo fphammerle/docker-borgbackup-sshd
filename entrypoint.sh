@@ -16,15 +16,15 @@ authorize_key() {
         echo "command=\"/usr/bin/borg serve --restrict-to-repository '$1'$3\",restrict $2" >> ~/.ssh/authorized_keys
     fi
 }
-printenv SSH_CLIENT_PUBLIC_KEYS | while IFS=$'\n' read -r key; do
-    authorize_key "$REPO_PATH" "$key" ""
-done
-unset SSH_CLIENT_PUBLIC_KEYS
+authorize_keys() {
+    printenv "$1" | while IFS=$'\n' read -r key; do
+        authorize_key "$2" "$key" "$3"
+    done
+    unset "$1"
+}
+authorize_keys SSH_CLIENT_PUBLIC_KEYS "$REPO_PATH" ""
 # https://borgbackup.readthedocs.io/en/stable/usage/notes.html#append-only-mode
-printenv SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY | while IFS=$'\n' read -r key; do
-    authorize_key "$REPO_PATH" "$key" " --append-only"
-done
-unset SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY
+authorize_keys SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY "$REPO_PATH" " --append-only"
 unset REPO_PATH
 while IFS=$'\n' read line; do
     repo_name="$(echo -E "$line" | cut -d = -f 1 | cut -d _ -f 3-)"
@@ -34,14 +34,8 @@ while IFS=$'\n' read line; do
     fi
     repo_path="$(printenv "REPO_PATH_${repo_name}")"
     unset "REPO_PATH_${repo_name}"
-    printenv "SSH_CLIENT_PUBLIC_KEYS_${repo_name}" | while IFS=$'\n' read -r key; do
-        authorize_key "$repo_path" "$key" ""
-    done
-    unset "SSH_CLIENT_PUBLIC_KEYS_${repo_name}"
-    printenv "SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_${repo_name}" | while IFS=$'\n' read -r key; do
-        authorize_key "$repo_path" "$key" " --append-only"
-    done
-    unset "SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_${repo_name}"
+    authorize_keys "SSH_CLIENT_PUBLIC_KEYS_${repo_name}" "$repo_path" ""
+    authorize_keys "SSH_CLIENT_PUBLIC_KEYS_APPEND_ONLY_${repo_name}" "$repo_path" " --append-only"
 done < <(printenv | grep '^REPO_PATH_')
 
 set -x
