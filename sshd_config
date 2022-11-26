@@ -20,6 +20,10 @@ HostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-
 #UsePAM no
 PermitRootLogin no
 PubkeyAuthentication yes
+# > RSA: The length of the modulus n shall be 2048 bits or more to meet the
+# > minimum security-strength requirement of 112 bits [...]
+# https://csrc.nist.gov/publications/detail/sp/800-131a/rev-2/final
+RequiredRSASize 2048
 PasswordAuthentication no
 ChallengeResponseAuthentication no
 StrictModes no
