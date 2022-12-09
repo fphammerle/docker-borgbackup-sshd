@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - `sshd`: no longer accept RSA keys < 2048 bits for authentication
+- `sshd`: terminate session if client does not respond to keep alive requests
+  for 5 minutes
 
 ## [1.0.0] - 2022-11-04
 ### Added

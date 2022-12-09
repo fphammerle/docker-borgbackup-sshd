@@ -37,4 +37,15 @@ PermitUserEnvironment no
 PrintMotd no
 PermitTTY no
 
+# > In the event that the SSH connection [...] is disconnected or stuck
+# > abnormally [...], it can take a long time for sshd to notice the client is
+# > disconnected. [...] [Configure sshd] to send a keep alive to the client
+# > every 10 seconds. If 30 consecutive keepalives are sent without a response
+# > [...], the server’s sshd process will be terminated, causing the borg serve
+# > process to terminate gracefully and release the lock on the repository.
+# https://web.archive.org/web/20221101185048/https://borgbackup.readthedocs.io/en/stable/usage/serve.html#ssh-configuration
+# > The TCP keepalive option enabled by TCPKeepAlive is spoofable.
+ClientAliveInterval 10
+ClientAliveCountMax 30
+
 # ForceCommand via command= in ~/.ssh/authorized_keys
