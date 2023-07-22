@@ -1,7 +1,9 @@
 FROM docker.io/alpine:3.18.2
 
 ARG BORGBACKUP_PACKAGE_VERSION=1.2.4-r4
-ARG OPENSSH_SERVER_PACKAGE_VERSION=9.3_p1-r3
+# https://www.openssh.com/releasenotes.html
+# https://git.alpinelinux.org/aports/log/main/openssh?h=3.18-stable
+ARG OPENSSH_SERVER_PACKAGE_VERSION=9.3_p2-r0
 ARG TINI_PACKAGE_VERSION=0.19.0-r1
 ARG USER=borg
 ENV SSHD_HOST_KEYS_DIR=/etc/ssh/host_keys
