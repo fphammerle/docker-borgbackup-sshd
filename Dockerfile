@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.18.2
+FROM docker.io/alpine:3.18.3
 
 ARG BORGBACKUP_PACKAGE_VERSION=1.2.4-r4
 # https://www.openssh.com/releasenotes.html
