@@ -1,12 +1,13 @@
-FROM docker.io/alpine:3.18.5
+FROM docker.io/alpine:3.19.0
 
 # https://www.borgbackup.org/releases/
-# https://git.alpinelinux.org/aports/log/community/borgbackup?h=3.18-stable
+# https://git.alpinelinux.org/aports/log/community/borgbackup?h=3.19-stable
 ARG BORGBACKUP_PACKAGE_VERSION=1.2.7-r0
 # https://www.openssh.com/releasenotes.html
-# https://git.alpinelinux.org/aports/log/main/openssh?h=3.18-stable
-ARG OPENSSH_SERVER_PACKAGE_VERSION=9.3_p2-r0
-ARG TINI_PACKAGE_VERSION=0.19.0-r1
+# https://git.alpinelinux.org/aports/log/main/openssh?h=3.19-stable
+ARG OPENSSH_SERVER_PACKAGE_VERSION=9.5_p1-r0
+# https://git.alpinelinux.org/aports/log/community/tini?h=3.19-stable
+ARG TINI_PACKAGE_VERSION=0.19.0-r2
 ARG USER=borg
 ENV SSHD_HOST_KEYS_DIR=/etc/ssh/host_keys
 ENV REPO_PATH=/repository
