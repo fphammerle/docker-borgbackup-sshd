@@ -5,7 +5,7 @@ FROM docker.io/alpine:3.19.0
 ARG BORGBACKUP_PACKAGE_VERSION=1.2.7-r0
 # https://www.openssh.com/releasenotes.html
 # https://git.alpinelinux.org/aports/log/main/openssh?h=3.19-stable
-ARG OPENSSH_SERVER_PACKAGE_VERSION=9.5_p1-r0
+ARG OPENSSH_SERVER_PACKAGE_VERSION=9.6_p1-r0
 # https://git.alpinelinux.org/aports/log/community/tini?h=3.19-stable
 ARG TINI_PACKAGE_VERSION=0.19.0-r2
 ARG USER=borg
