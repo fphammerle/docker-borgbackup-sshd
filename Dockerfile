@@ -2,7 +2,7 @@ FROM docker.io/alpine:3.22.2
 
 # https://www.borgbackup.org/releases/
 # https://git.alpinelinux.org/aports/log/community/borgbackup?h=3.22-stable
-ARG BORGBACKUP_PACKAGE_VERSION=1.4.1-r0
+ARG BORGBACKUP_PACKAGE_VERSION=1.4.2-r0
 # https://www.openssh.com/releasenotes.html
 # https://git.alpinelinux.org/aports/log/main/openssh?h=3.22-stable
 ARG OPENSSH_SERVER_PACKAGE_VERSION=10.0_p1-r9
