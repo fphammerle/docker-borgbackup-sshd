@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.23.0
+FROM docker.io/alpine:3.23.2
 
 # https://www.borgbackup.org/releases/
 # https://git.alpinelinux.org/aports/log/community/borgbackup?h=3.23-stable
