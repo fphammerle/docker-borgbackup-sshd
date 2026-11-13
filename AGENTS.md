@@ -48,6 +48,12 @@
   history that's already landed (or been reviewed) and leaves a dangling branch that no longer
   reflects what merged. For a follow-up change, create a **new** branch (from current `master`)
   and a **new** PR instead.
+  - This has happened despite this rule, so before **every** amend / push to an existing branch,
+    first fetch its PR's current state from GitHub — pull requests may have been merged since you
+    last looked.
+- After a branch has been **fully** merged into `master`, delete it (on GitHub and locally). If
+  only a subset of its commits was merged, keep it and rebase the remaining commits onto `master`
+  instead (`git rebase --onto origin/master <last merged commit>`).
 
 ## Merging pull requests
 
@@ -73,6 +79,10 @@
 ## CI failures
 
 - Fix CI failures automatically, iterating until all checks are green — no need to ask first.
+- After a fix for a failing build is merged into `master`, **automatically** comment the
+  Dependabot rebase command on each of Dependabot's open pull requests (without being asked), so
+  their checks re-run on top of the fix instead of staying red. Follow the mandatory steps in
+  "GitHub comments that @-mention a bot" below.
 
 ## Files synced with other repositories
 
@@ -92,6 +102,9 @@
     character with the intended text. Only then post the next one.
   - If the body is wrong, edit the comment to the exact intended text (Dependabot does act on
     edited comments) and read it back again — don't leave a broken command posted.
+  - Creating the comment has corrupted the body **every time** so far, while editing it to the
+    same text came through intact — so never consider a bot command posted after the create
+    call alone; the read-back and (almost always needed) edit are part of posting it.
 - The same corruption also hits `@mentions` in PR descriptions and other GitHub text. Don't quote
   bot commands literally there (describe them instead, e.g. "the Dependabot rebase command"), and
   read every PR description back after creating or updating it.
@@ -100,3 +113,14 @@
 
 - Don't include the Claude session URL — it's private. A footer containing it may be appended
   automatically when a PR is created; read the description back and remove it with an update.
+
+## `AGENTS.md` across repositories
+
+- The `AGENTS.md` files of the owner's repositories share most of their rules. Find them all with
+  a GitHub code search for `user:fphammerle filename:AGENTS.md`.
+- Creating an `AGENTS.md` for a repository: base it on **all** of them, not just one. Start from
+  the closest sibling, keep only the rules that fit the particular repository (e.g. no Python /
+  `Pipfile` rules for a `Dockerfile`-only repository, no rules on `Dockerfile` version pins for a
+  repository without a `Dockerfile`), and adapt repository-specific examples
+  (e.g. package names, commit subject conventions from `git log`). In the commit message, reference
+  the individual source each part was based on with full permanent URLs (commit hash + path).
